@@ -1,6 +1,6 @@
 import React from 'react'
 import List from '../src/components/List'
-import { render } from 'enzyme'
+import { shallow } from 'enzyme'
 
 const setup = () => {
     const props = {
@@ -25,7 +25,7 @@ const setup = () => {
         ],
         listBtnClick: jest.fn(),
     }
-    const wrapper = render(<List {...props} />)
+    const wrapper = shallow(<List {...props} />)
     return {
         props,
         wrapper
