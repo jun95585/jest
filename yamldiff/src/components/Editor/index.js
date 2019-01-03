@@ -1,30 +1,23 @@
 import React, { Component } from 'react';
-import './App.css';
 
 import { UnControlled as CodeMirror } from 'react-codemirror2'
 
 import 'codemirror/mode/yaml/yaml';
 import 'codemirror/theme/ambiance.css';
-require('codemirror/lib/codemirror.css');
-
+import 'codemirror/lib/codemirror.css';
+import './style.sass';
 class Editor extends Component {
     constructor(props) {
         super(props)
-        this.state = {
-            value: '// Code',
-        };
+
     }
 
     changeCode(value) {
-        this.setState({
-            value: value,
-        }, () => {
-            const {
-                onChange,
-            } = this.props || {};
+        const {
+            onChange,
+        } = this.props || {};
 
-            onChange && onChange(value)
-        })
+        onChange && onChange(value)
     }
 
     clearCode (e) {
@@ -35,16 +28,22 @@ class Editor extends Component {
     render() {
         return (
             <section className="editor">
+                <title>{123}</title>
                 <CodeMirror
+                    className="editor-codemirror"
                     ref="editor"
+                    editorDidMount={(editor) => {
+                        editor.refresh();
+                    }}
                     options={{
                         mode: 'diff',
                         theme: 'ambiance',
-                        lineNumbers: true
+                        lineNumbers: true,
+                        autoRefresh: true
                     }}
-                    value={this.state.value}
-                    onChange={(value) => this.changeCode(value)}
-                />
+                    value={this.props.code}
+                    onChange={(editor, data, value) => this.changeCode(value)}
+            />
                 {this.renderBtns()}
             </section>
         );
@@ -55,12 +54,12 @@ class Editor extends Component {
             btns = []
         } = this.props || {}
 
-        render (
+        return (
             <section className = "editor-btns">
                 {btns.map((btn) => {
                     return btn
                 })}
-                <a onClick={(e) => this.clearCode(e)}>clear</a>
+                <a className='btn' onClick={(e) => this.clearCode(e)}>clear</a>
             </section>
         )
     }
